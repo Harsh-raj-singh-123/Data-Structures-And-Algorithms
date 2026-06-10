@@ -1,0 +1,20 @@
+class Solution{
+private:
+    int f(int ind, int prev, vector<vector<int>>& dp, vector<int>& nums){
+        if(ind == nums.size()) return 0;
+        if(dp[ind][prev+1] != -1) return dp[ind][prev+1];
+        int notTake = 0 + f(ind+1, prev, dp, nums);
+        int take;
+        if(prev == -1 || nums[ind] > nums[prev]){
+            take = 1 + f(ind+1, ind, dp, nums);
+        }
+        return dp[ind][prev+1] = max(take, notTake);
+    }
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int m = nums.size();
+        vector<vector<int>> dp(m, vector<int>(m+1, -1));
+        int prev = -1;
+        return f(0, prev, dp, nums);
+    }
+};
